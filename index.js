@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const { router } = require('./routers');
 const app = express();
 
 // Basic Configuration
@@ -14,10 +15,11 @@ app.get('/', function(req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 // Your first API endpoint
-app.get('/api/hello', function(req, res) {
-  res.json({ greeting: 'hello API' });
-});
+app.use("/api", router);
 
 app.listen(port, function() {
   console.log(`Listening on port ${port}`);
